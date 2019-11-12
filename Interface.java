@@ -20,6 +20,11 @@ import javax.swing.border.BevelBorder;
 import javax.swing.JTextPane;
 import javax.swing.JTextField;
 import javax.swing.JLabel;
+import javax.swing.JComboBox;
+import javax.swing.JRadioButton;
+import javax.swing.border.SoftBevelBorder;
+import javax.swing.border.EtchedBorder;
+import java.awt.Cursor;
 
 public class Interface {
 
@@ -59,28 +64,30 @@ public class Interface {
 	private void initialize() {
 		setFrame(new JFrame());
 		getFrame().getContentPane().setBackground(Color.LIGHT_GRAY);
-		getFrame().setBounds(100, 100, 772, 668);
+		getFrame().setBounds(100, 100, 789, 668);
 		getFrame().setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		getFrame().getContentPane().setLayout(null);
 		
 		JTextArea textArea = new JTextArea();
-		textArea.setBounds(193, 536, 369, 62);
+		textArea.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
+		textArea.setBounds(120, 520, 369, 62);
 		getFrame().getContentPane().add(textArea);
 		
-		JTextArea textArea_1 = new JTextArea("Tapez votre message ici");
-		textArea_1.setBounds(193, 404, 369, 62);
+		JTextArea textArea_1 = new JTextArea();
+		textArea_1.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
+		textArea_1.setBounds(120, 413, 369, 62);
 		getFrame().getContentPane().add(textArea_1);
 		
-		JButton btnNewButton = new JButton("Configurer rotors");
-		btnNewButton.setBounds(94, 486, 153, 23);
+		JButton btnNewButton = new JButton("Configurer rotor");
+		btnNewButton.setBounds(145, 486, 153, 23);
 		getFrame().getContentPane().add(btnNewButton);
 		
 		JButton btnNewButton1 = new JButton("Decrypter");
-		btnNewButton1.setBounds(527, 486, 125, 23);
+		btnNewButton1.setBounds(498, 542, 125, 23);
 		getFrame().getContentPane().add(btnNewButton1);
 		
 		JButton btnNewButton2 = new JButton("Encrypter");
-		btnNewButton2.setBounds(257, 486, 125, 23);
+		btnNewButton2.setBounds(498, 432, 125, 23);
 		btnNewButton2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) { //Event to take text from first text area and encrypt it into second text area
 				Rotor rotor = new Rotor(); 
@@ -92,7 +99,7 @@ public class Interface {
 		getFrame().getContentPane().add(btnNewButton2);
 		
 		JButton btnNewButton3 = new JButton("Etape suivante");
-		btnNewButton3.setBounds(392, 486, 125, 23);
+		btnNewButton3.setBounds(332, 486, 125, 23);
 		btnNewButton3.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 			}
@@ -174,7 +181,8 @@ public class Interface {
 		getFrame().getContentPane().add(reflector);
 		
 		JTextPane textPane = new JTextPane();
-		textPane.setBounds(318, 358, 125, 23);
+		textPane.setBorder(new LineBorder(new Color(0, 0, 0)));
+		textPane.setBounds(399, 358, 44, 23);
 		getFrame().getContentPane().add(textPane);
 		
 		JLabel lblReflector = new JLabel("REFLECTEUR");
@@ -198,8 +206,31 @@ public class Interface {
 		
 		JLabel lblCle = new JLabel("CLE");
 		lblCle.setLabelFor(textPane);
-		lblCle.setBounds(279, 350, 29, 38);
+		lblCle.setBounds(353, 350, 29, 38);
 		getFrame().getContentPane().add(lblCle);
+		
+		
+		String[] rotors = {"   Rotor 1", "   Rotor 2", "   Rotor 3"};
+		JComboBox comboBox = new JComboBox(rotors);
+		comboBox.setBackground(Color.WHITE);
+		comboBox.setBorder(new LineBorder(new Color(171, 173, 179)));
+		comboBox.setSelectedIndex(2);
+		comboBox.setBounds(453, 358, 109, 23);
+		frame.getContentPane().add(comboBox);
+		
+		JRadioButton rdbtnDroite = new JRadioButton("Droite");
+		rdbtnDroite.setBackground(Color.LIGHT_GRAY);
+		rdbtnDroite.setBounds(257, 346, 66, 23);
+		frame.getContentPane().add(rdbtnDroite);
+		
+		JRadioButton rdbtnGauche = new JRadioButton("Gauche");
+		rdbtnGauche.setBackground(Color.LIGHT_GRAY);
+		rdbtnGauche.setBounds(257, 372, 84, 23);
+		frame.getContentPane().add(rdbtnGauche);
+		
+		JLabel label = new JLabel("DECALAGE");
+		label.setBounds(193, 350, 65, 38);
+		frame.getContentPane().add(label);
 
 	}
 	public JTable getTable() {
@@ -212,6 +243,7 @@ public class Interface {
 
 	public void setFrame(JFrame frame) {
 		this.frame = frame;
+		frame.getContentPane().setCursor(Cursor.getPredefinedCursor(Cursor.TEXT_CURSOR));
 	}
 }
 
