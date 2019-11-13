@@ -1,4 +1,4 @@
-
+import java.util.Arrays;
 
 public class Rotor {
 
@@ -11,6 +11,7 @@ public class Rotor {
 	//pour convertir chiffre a lettre
 	Conversion conversion = new Conversion(); 
 	Conversion conversion2 = new Conversion("test");
+	//StringBuilder str = new StringBuilder(); 
 
 	//Constructor for a rotor
 	public Rotor(int[] allerRotor, int[] retourRotor, boolean direction) {
@@ -20,7 +21,7 @@ public class Rotor {
 	}
 
 	//Default
-	public Rotor() {}
+	public Rotor() {}	 
 
 
 	/****************FONCTIONS********************/
@@ -41,7 +42,9 @@ public class Rotor {
 		return move; 
 	}
 
-	//Makes array circular
+	//FONCTIONS POUR ENCRYPTER/DECRYPTER//
+
+	//Makes array circular, s'assure que valeur int reste en 0 et 25
 	public int circularArray(int index, int move) {
 		int front = 0; 
 		int end = 25; 
@@ -59,9 +62,8 @@ public class Rotor {
 		return move; 
 	}
 
-
+	//fonction pour arriver a valeur entier en montant dans les rotors
 	public int aller(int w, Rotor x, Rotor y, Rotor z) {
-
 		int moveToIndex = w; //w is the index of first rotor
 		//System.out.println(moveToIndex);
 		int rotor1 = x.allerRotor[moveToIndex];	//prochain index = value of rotor1
@@ -80,8 +82,8 @@ public class Rotor {
 		return moveToIndex;
 	}
 
+	//fonction pour arriver a valeur entier en descendant les rotors
 	public int retour(int w, int[] reflector, Rotor x, Rotor y, Rotor z) {
-
 		int moveToIndex = w; //w is the reflector index 
 		//System.out.println(moveToIndex);
 		//get index + value to move to rotor3, makes sure value stays into array
@@ -100,7 +102,7 @@ public class Rotor {
 		return moveToIndex; //returns index of rotor1
 	}	
 
-	//fonction pour encrypter combinant aller et retour
+	//fonction pour encrypter en combinant aller et retour
 	public String encryption(int w, Rotor x, Rotor y, Rotor z, int[] reflector) {
 		int moveToIndex = w; 
 		int valeurAller = aller(moveToIndex, x, y, z);
@@ -109,27 +111,15 @@ public class Rotor {
 		System.out.print(lettre);
 		return lettre; 
 	}
-	
-	//encrypter avec un String au lieu du int
-	public String encryption(String w, Rotor x, Rotor y, Rotor z, int[] reflector) {
-		int moveToIndex = conversion2.getValueOfLettre(w); 
-		int valeurAller = aller(moveToIndex, x, y, z);
-		int valeurRetour = retour(valeurAller, reflector, z, y, x);
-		String lettre = conversion.getValueOfNbr(valeurRetour);
-		System.out.print(lettre);
-		return lettre; 
-	}
-	
-	
-	
+
 	//fonction pour recueillir les lettres d'un mot
-	public String[] readLetters(String input) {
-		int mot = input.length(); 
+	public String[] readLetters(StringBuilder str) {
+		int mot = str.length(); 
 		String[] lettres = new String[mot];
 
 		for (int i = 0; i < mot; i++)
 		{
-			char myChar = input.charAt(i);
+			char myChar = str.charAt(i);
 			lettres[i] = Character.toString(myChar);
 		}
 		return lettres; 
@@ -146,23 +136,84 @@ public class Rotor {
 		}			
 		return numeros;
 	}
-	
-	//
-	public void readWord(int[] chiffresMot, Rotor x, Rotor y, Rotor z, int[] reflector) {
-		int longueurMot = chiffresMot.length; 
+
+	//recueillir int[] de convertLettre et appliquer encryption dessus
+	public String[] readWord(int[] chiffresMot, Rotor x, Rotor y, Rotor z, int[] reflector) {
+		int longueurMot = chiffresMot.length;
+		String[] mot = new String[longueurMot]; 
 		for(int i = 0; i < longueurMot; i++) {
 			int lettre = chiffresMot[i];
-			encryption(lettre, x, y, z, reflector); 
+			mot[i] = encryption(lettre, x, y, z, reflector); 
 		}
+		return mot;
 	}
-	
-	public void parcourirMot(String input, Rotor x, Rotor y, Rotor z, int[] reflector) {
-		String[] lettres = readLetters(input);
+
+	//appliquer readLetters, convertLetters et readWord
+	public String parcourirMot(StringBuilder str, Rotor x, Rotor y, Rotor z, int[] reflector) {
+		String[] lettres = readLetters(str);
 		int[] chiffres = convertLetters(lettres);
-		readWord(chiffres, x, y, z, reflector);
+		String[] strArr = readWord(chiffres, x, y, z, reflector);
+		return Arrays.toString(strArr);
+	}
+
+	//FONCTIONS POUR LE DECALAGE//
+
+	public void afficherVector(int[] arr, int[] arr2) {
+		for(int i = 0; i < arr.length; i++) {
+			System.out.print(arr[i] + ", ");
+		}
+		System.out.println(" ");
+		for(int j = 0; j < arr2.length; j++) {
+			System.out.print(arr2[j] + ", ");
+		}
+
+	}
+
+	public void returnVector(int[] arr, int[] arr2, boolean direction, int d) {
+
+		if(direction) {
+			rightRotate(arr, d); 
+			rightRotate(arr2, d);
+		} else {
+			leftRotate(arr, d);
+			leftRotate(arr2, d);
+		}
+		afficherVector(arr, arr2); 
 	}
 
 
+	public void leftRotate(int[] arr, int d) { 
+		int n = arr.length; 
+		for (int i = 0; i < d; i++) 
+			leftRotatebyOne(arr); 
+	} 
+
+	/*Function to right rotate arr[] of size n by d*/
+	public void rightRotate(int arr[], int d) { 
+		int n = arr.length;
+		for (int i = 0; i < d; i++) 
+			rightRotateByOne(arr); 
+	} 
+
+	//function needed for leftRotate
+	public void leftRotatebyOne(int arr[]) { 
+		int n = arr.length; 
+		int i, temp; 
+		temp = arr[0]; 
+		for (i = 0; i < n - 1; i++) 
+			arr[i] = arr[i + 1]; 
+		arr[i] = temp; 
+	} 
+
+	//function needed for rightRotate
+	public void rightRotateByOne(int arr[]) {
+		int n = arr.length;
+		int last = arr[n - 1];
+		for (int i = n - 2; i >= 0; i--) {
+			arr[i + 1] = arr[i];
+		}
+		arr[0] = last;
+	}
 
 	/**************************GETTER/SETTER********************************/
 
