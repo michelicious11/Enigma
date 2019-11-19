@@ -6,15 +6,15 @@ public class Rotor {
 	//direction: true = right - false = left
 	private boolean direction; 
 	//the rotors
-	private int[] allerRotor; 
-	private int[] retourRotor;
+	private Integer[] allerRotor; 
+	private Integer[] retourRotor;
 	//pour convertir chiffre a lettre
 	Conversion conversion = new Conversion(); 
 	Conversion conversion2 = new Conversion("test");
 	//StringBuilder str = new StringBuilder(); 
 
 	//Constructor for a rotor
-	public Rotor(int[] allerRotor, int[] retourRotor, boolean direction) {
+	public Rotor(Integer[] allerRotor, Integer[] retourRotor, boolean direction) {
 		this.allerRotor = allerRotor; 
 		this.retourRotor = retourRotor;
 		this.direction = direction; 
@@ -31,7 +31,7 @@ public class Rotor {
 	}
 
 	//Determine how many columns to move to, left or right
-	public int moveDirection(Rotor x, int y, boolean z) {
+	public int moveDirection(Rotor x, Integer y, boolean z) {
 		int move;
 		boolean direction = x.checkDirection(); 
 		if(direction) {
@@ -48,7 +48,6 @@ public class Rotor {
 	public int circularArray(int index, int move) {
 		int front = 0; 
 		int end = 25; 
-
 		if(move < front) {
 			int moveValeur = move%26;
 			//System.out.println("movevaleur < " + move + " " + moveValeur );
@@ -63,9 +62,12 @@ public class Rotor {
 	}
 
 	//fonction pour arriver a valeur entier en montant dans les rotors
-	public int aller(int w, Rotor x, Rotor y, Rotor z) {
+	public Integer aller(int w, Rotor x, Rotor y, Rotor z) {
 		int moveToIndex = w; //w is the index of first rotor
 		//System.out.println(moveToIndex);
+		if(moveToIndex == 26) {
+			return null;
+		}
 		int rotor1 = x.allerRotor[moveToIndex];	//prochain index = value of rotor1
 		//at moveToindex + moveToIndex
 		moveToIndex = circularArray(moveToIndex, rotor1 + moveToIndex); //convert rotor1 if value outside of array
@@ -83,7 +85,7 @@ public class Rotor {
 	}
 
 	//fonction pour arriver a valeur entier en descendant les rotors
-	public int retour(int w, int[] reflector, Rotor x, Rotor y, Rotor z) {
+	public Integer retour(int w, Integer[] reflector, Rotor x, Rotor y, Rotor z) {
 		int moveToIndex = w; //w is the reflector index 
 		//System.out.println(moveToIndex);
 		//get index + value to move to rotor3, makes sure value stays into array
@@ -103,10 +105,13 @@ public class Rotor {
 	}	
 
 	//fonction pour encrypter en combinant aller et retour
-	public String encryption(int w, Rotor x, Rotor y, Rotor z, int[] reflector) {
+	public String encryption(int w, Rotor x, Rotor y, Rotor z, Integer[] reflector) {
 		int moveToIndex = w; 
-		int valeurAller = aller(moveToIndex, x, y, z);
-		int valeurRetour = retour(valeurAller, reflector, z, y, x);
+		Integer valeurAller = aller(moveToIndex, x, y, z);
+		if(valeurAller == null) {
+			return " "; 
+		}
+		Integer valeurRetour = retour(valeurAller, reflector, z, y, x);
 		String lettre = conversion.getValueOfNbr(valeurRetour);
 		System.out.print(lettre);
 		return lettre; 
@@ -126,34 +131,38 @@ public class Rotor {
 	}
 
 	//fonction pour changer les lettres recueillies en chiffres
-	public int[] convertLetters(String[] lettres) {
-		int nbrLettres = lettres.length;
-		int[] numeros = new int[nbrLettres]; 
+	public Integer[] convertLetters(String[] lettres) {
+		Integer nbrLettres = lettres.length;
+		Integer[] numeros = new Integer[nbrLettres]; 
 		for(int i = 0; i < nbrLettres; i++) {
 			String lettre = lettres[i].toUpperCase();
-			int numero = conversion2.getValueOfLettre(lettre);
+			Integer numero = conversion2.getValueOfLettre(lettre);
 			numeros[i] = numero; 
 		}			
 		return numeros;
 	}
 
 	//recueillir int[] de convertLettre et appliquer encryption dessus
-	public String[] readWord(int[] chiffresMot, Rotor x, Rotor y, Rotor z, int[] reflector) {
+	public String readWord(Integer[] chiffresMot, Rotor x, Rotor y, Rotor z, Integer[] reflector) {
 		int longueurMot = chiffresMot.length;
-		String[] mot = new String[longueurMot]; 
+		String[] mot = new String[longueurMot];
 		for(int i = 0; i < longueurMot; i++) {
-			int lettre = chiffresMot[i];
-			mot[i] = encryption(lettre, x, y, z, reflector); 
+			Integer lettre = chiffresMot[i];
+			mot[i] = encryption(lettre, x, y, z, reflector);
 		}
-		return mot;
+		StringBuilder newMot = new StringBuilder();
+		for(int j = 0; j < mot.length; j++) {
+			newMot.append(mot[j]);
+		}
+		return newMot.toString();
 	}
 
 	//appliquer readLetters, convertLetters et readWord
-	public String parcourirMot(StringBuilder str, Rotor x, Rotor y, Rotor z, int[] reflector) {
+	public String parcourirMot(StringBuilder str, Rotor x, Rotor y, Rotor z, Integer[] reflector) {
 		String[] lettres = readLetters(str);
-		int[] chiffres = convertLetters(lettres);
-		String[] strArr = readWord(chiffres, x, y, z, reflector);
-		return Arrays.toString(strArr);
+		Integer[] chiffres = convertLetters(lettres);
+		String strArr = readWord(chiffres, x, y, z, reflector);
+		return strArr;
 	}
 
 	//FONCTIONS POUR LE DECALAGE//
@@ -170,7 +179,6 @@ public class Rotor {
 	}
 
 	public void returnVector(int[] arr, int[] arr2, boolean direction, int d) {
-
 		if(direction) {
 			rightRotate(arr, d); 
 			rightRotate(arr2, d);
@@ -225,19 +233,19 @@ public class Rotor {
 		this.direction = direction;
 	}
 
-	public int[] getAllerRotor() {
+	public Integer[] getAllerRotor() {
 		return allerRotor;
 	}
 
-	public void setAllerRotor(int[] allerRotor) {
+	public void setAllerRotor(Integer[] allerRotor) {
 		this.allerRotor = allerRotor;
 	}
 
-	public int[] getRetourRotor() {
+	public Integer[] getRetourRotor() {
 		return retourRotor;
 	}
 
-	public void setRetourRotor(int[] retourRotor) {
+	public void setRetourRotor(Integer[] retourRotor) {
 		this.retourRotor = retourRotor;
 	}
 

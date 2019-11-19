@@ -34,6 +34,7 @@ public class Conversion {
     alphaNumerique.put(23, "X");
     alphaNumerique.put(24, "Y");
     alphaNumerique.put(25, "Z");
+    alphaNumerique.put(26, " ");
 	}
 	
     HashMap<String, Integer> numeriqueAlpha; 
@@ -66,6 +67,7 @@ public class Conversion {
 	numeriqueAlpha.put("X", 23);
 	numeriqueAlpha.put("Y", 24);
 	numeriqueAlpha.put("Z", 25);
+	numeriqueAlpha.put(" ", 26);
 	}
 	
 	public HashMap<Integer, String> getMap() {	
