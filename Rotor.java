@@ -50,12 +50,9 @@ public class Rotor {
 		int end = 25; 
 		if(move < front) {
 			int moveValeur = move%26;
-			//System.out.println("movevaleur < " + move + " " + moveValeur );
-			move = end + moveValeur; 
-			//System.out.println("movevaleur < " + move + " " + moveValeur );
+			move = end + 1 + moveValeur; 
 		} else if(move > end) {
 			int moveValeur = move%26;
-			//System.out.println(moveValeur);
 			move = front + moveValeur;
 		}	
 		return move; 
@@ -64,43 +61,38 @@ public class Rotor {
 	//fonction pour arriver a valeur entier en montant dans les rotors
 	public Integer aller(int w, Rotor x, Rotor y, Rotor z) {
 		int moveToIndex = w; //w is the index of first rotor
-		//System.out.println(moveToIndex);
 		if(moveToIndex == 26) {
 			return null;
 		}
 		int rotor1 = x.allerRotor[moveToIndex];	//prochain index = value of rotor1
 		//at moveToindex + moveToIndex
 		moveToIndex = circularArray(moveToIndex, rotor1 + moveToIndex); //convert rotor1 if value outside of array
-		//System.out.println(moveToIndex);
 		int rotor2 = y.allerRotor[moveToIndex]; //prochain index = value of rotor1 at 
-		//updated moveToIndex + updated moveToIndex
 		moveToIndex = circularArray(moveToIndex, moveToIndex + rotor2); //convert rotor2 if value outside
-		//System.out.println(moveToIndex);
 		int rotor3 = z.allerRotor[moveToIndex]; //prochain index = value of rotor2 at 
 		//updated2 moveToIndex + updated2 moveToIndex
 		moveToIndex = circularArray(moveToIndex, moveToIndex + rotor3);
 		//moveToIndex now = index of reflector
-		//System.out.println(moveToIndex);
 		return moveToIndex;
 	}
 
 	//fonction pour arriver a valeur entier en descendant les rotors
 	public Integer retour(int w, Integer[] reflector, Rotor x, Rotor y, Rotor z) {
-		int moveToIndex = w; //w is the reflector index 
-		//System.out.println(moveToIndex);
+		int index = w; //w is the reflector index 
 		//get index + value to move to rotor3, makes sure value stays into array
-		moveToIndex = circularArray(moveToIndex, moveToIndex + reflector[moveToIndex]); 
-		//System.out.println(moveToIndex);
-		int rotor3 = x.retourRotor[moveToIndex];//next index = index + value of rotor3
+		int indexValeur = reflector[index]; 
+		int moveToIndex = circularArray(index, index + indexValeur);
+		indexValeur = x.retourRotor[moveToIndex];//next index = index + value of rotor3
 		//get index + value to move to rotor2, makes sure value stays into array
-		moveToIndex = circularArray(moveToIndex, rotor3 + moveToIndex);
-		//System.out.println(moveToIndex);
-		int rotor2 = y.retourRotor[moveToIndex]; //next index = index + value of rotor2 
+		index = moveToIndex;
+		moveToIndex = circularArray(moveToIndex, index + indexValeur);
+		indexValeur = y.retourRotor[moveToIndex]; //next index = index + value of rotor2 
+		index = moveToIndex; 
 		//get index + value to move to rotor1, makes sure value stays into array
-		moveToIndex = circularArray(moveToIndex, moveToIndex + rotor2);
-		//System.out.println(moveToIndex);
-		int rotor1 = z.retourRotor[moveToIndex];
-		moveToIndex = circularArray(moveToIndex, moveToIndex + rotor1);
+		moveToIndex = circularArray(moveToIndex, index + indexValeur);
+		indexValeur = z.retourRotor[moveToIndex];
+		index = moveToIndex; 
+		moveToIndex = circularArray(moveToIndex, index + indexValeur);
 		return moveToIndex; //returns index of rotor1
 	}	
 
@@ -113,7 +105,6 @@ public class Rotor {
 		}
 		Integer valeurRetour = retour(valeurAller, reflector, z, y, x);
 		String lettre = conversion.getValueOfNbr(valeurRetour);
-		System.out.print(lettre);
 		return lettre; 
 	}
 
