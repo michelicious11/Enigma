@@ -2,6 +2,7 @@ import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.BoxLayout;
+import javax.swing.ButtonGroup;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.JButton;
@@ -78,6 +79,8 @@ public class Interface {
 		textArea_1.setBounds(120, 413, 369, 62);
 		getFrame().getContentPane().add(textArea_1);
 
+
+		/***************BOUTONS***********************/
 		JButton btnNewButton = new JButton("Configurer rotor");
 		btnNewButton.setBounds(145, 486, 153, 23);
 		getFrame().getContentPane().add(btnNewButton);
@@ -123,6 +126,10 @@ public class Interface {
 			}
 		});
 		getFrame().getContentPane().add(btnNewButton3);
+
+
+
+		/*******************TABLE**********************/
 
 		alphabet = new JTable();
 		alphabet.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
@@ -198,10 +205,18 @@ public class Interface {
 		reflector.setBounds(47, 46, 622, 32);
 		getFrame().getContentPane().add(reflector);
 
+
+
+		/****************************************/
+
 		JTextPane textPane = new JTextPane();
 		textPane.setBorder(new LineBorder(new Color(0, 0, 0)));
 		textPane.setBounds(399, 358, 44, 23);
 		getFrame().getContentPane().add(textPane);
+
+
+
+		/*****************LABELS**********************/
 
 		JLabel lblReflector = new JLabel("REFLECTEUR");
 		lblReflector.setBounds(673, 49, 90, 32);
@@ -227,8 +242,14 @@ public class Interface {
 		lblCle.setBounds(353, 350, 29, 38);
 		getFrame().getContentPane().add(lblCle);
 
-
+		JLabel label = new JLabel("DECALAGE");
+		label.setBounds(152, 350, 99, 38);
+		frame.getContentPane().add(label);
+		
+		
+		/***********DROPDOWN MENU POUR CHOISIR ROTOR*****************/
 		String[] rotors = {"   Rotor 1", "   Rotor 2", "   Rotor 3"};
+		
 		JComboBox comboBox = new JComboBox(rotors);
 		comboBox.setBackground(Color.WHITE);
 		comboBox.setBorder(new LineBorder(new Color(171, 173, 179)));
@@ -236,19 +257,21 @@ public class Interface {
 		comboBox.setBounds(453, 358, 109, 23);
 		frame.getContentPane().add(comboBox);
 
-		JRadioButton rdbtnDroite = new JRadioButton("Droite");
-		rdbtnDroite.setBackground(Color.LIGHT_GRAY);
-		rdbtnDroite.setBounds(257, 346, 66, 23);
-		frame.getContentPane().add(rdbtnDroite);
+		/**************BOUTONS RADIOS********************/
+		JRadioButton btnDroite = new JRadioButton("Droite");
+		btnDroite.setBackground(Color.LIGHT_GRAY);
+		btnDroite.setBounds(257, 346, 66, 23);
+		frame.getContentPane().add(btnDroite);
 
-		JRadioButton rdbtnGauche = new JRadioButton("Gauche");
-		rdbtnGauche.setBackground(Color.LIGHT_GRAY);
-		rdbtnGauche.setBounds(257, 372, 84, 23);
-		frame.getContentPane().add(rdbtnGauche);
+		JRadioButton btnGauche = new JRadioButton("Gauche");
+		btnGauche.setBackground(Color.LIGHT_GRAY);
+		btnGauche.setBounds(257, 372, 84, 23);
+		frame.getContentPane().add(btnGauche);
+		
+		ButtonGroup btnGroup = new ButtonGroup();
+		btnGroup.add(btnDroite);
+		btnGroup.add(btnGauche);
 
-		JLabel label = new JLabel("DECALAGE");
-		label.setBounds(152, 350, 99, 38);
-		frame.getContentPane().add(label);
 
 	}
 	public JTable getTable() {
