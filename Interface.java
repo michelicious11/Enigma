@@ -35,6 +35,7 @@ public class Interface {
 	private JTable rotor1;
 	private JTable rotor2;
 	private JTable reflector;
+	private JTextField amountInput;
 
 	/**
 	 * Launch the application.
@@ -62,6 +63,7 @@ public class Interface {
 	/**
 	 * Initialize the contents of the frame.
 	 */
+
 	private void initialize() {
 		setFrame(new JFrame());
 		getFrame().getContentPane().setBackground(Color.LIGHT_GRAY);
@@ -78,12 +80,47 @@ public class Interface {
 		textArea_1.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
 		textArea_1.setBounds(120, 413, 369, 62);
 		getFrame().getContentPane().add(textArea_1);
+		
+		
+		/**************BOUTONS RADIOS********************/
+		JRadioButton btnDroite = new JRadioButton("Droite", true);
+		btnDroite.setBackground(Color.LIGHT_GRAY);
+		btnDroite.setBounds(257, 346, 66, 23);
+		frame.getContentPane().add(btnDroite);
 
+		JRadioButton btnGauche = new JRadioButton("Gauche", false);
+		btnGauche.setBackground(Color.LIGHT_GRAY);
+		btnGauche.setBounds(257, 372, 84, 23);
+		frame.getContentPane().add(btnGauche);
+
+		ButtonGroup btnGroup = new ButtonGroup();
+		btnGroup.add(btnDroite);
+		btnGroup.add(btnGauche);
+		
+		/*****************JTextField (input)********************/
+		amountInput = new JTextField();
+		amountInput.setBounds(403, 358, 47, 23);
+		frame.getContentPane().add(amountInput);
+		amountInput.setColumns(10);
 
 		/***************BOUTONS***********************/
-		JButton btnNewButton = new JButton("Configurer rotor");
-		btnNewButton.setBounds(145, 486, 153, 23);
-		getFrame().getContentPane().add(btnNewButton);
+		JButton btnConfig = new JButton("Configurer rotor");
+		btnConfig.setBounds(145, 486, 153, 23);
+		btnConfig.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) { 
+				Rotor rotor = new Rotor(); //pour pour avoir acces aux methodes de Rotor
+				
+				if(btnDroite.isSelected()) {
+					boolean droite = rotor.getDirection(); 
+					droite = true; 
+					int montant = 10; //amountInput.getText(); 
+					//returnVector(Integer[] arr, Integer[] arr2, droite, int d) 
+				} 
+				
+			}
+		});
+		getFrame().getContentPane().add(btnConfig);
+		
 
 		JButton btnNewButton1 = new JButton("Decrypter");
 		btnNewButton1.setBounds(498, 542, 125, 23);
@@ -93,11 +130,7 @@ public class Interface {
 				String mot = textArea.getText().toUpperCase(); //recupere le texte dans le JtextArea + le met en majuscules
 				StringBuilder str = new StringBuilder(mot); //pour pour avoir acces aux methodes de StringBuilder
 				String text = rotor.parcourirMot(str, Main.getRotor1(), Main.getRotor2(), Main.getRotor3(), Main.getReflector()); 
-				//char[] chars = text.toCharArray(); //Transforme le String en array de char
 				textArea_1.setText(text); //Mets le String (une lettre) dans le JtextArea
-				for(int i = 0; i < text.length(); i++) {
-					textArea_1.append(text); //ajoute au premier String des characters avec une fonction de StringBuilder
-				}
 			}
 		});
 		getFrame().getContentPane().add(btnNewButton1);
@@ -110,19 +143,17 @@ public class Interface {
 				String mot = textArea_1.getText().toUpperCase(); //recupere le texte dans le JtextArea + le met en majuscules
 				StringBuilder str = new StringBuilder(mot); //pour pour avoir acces aux methodes de StringBuilder
 				String text = rotor.parcourirMot(str, Main.getRotor1(), Main.getRotor2(), Main.getRotor3(), Main.getReflector()); 
-				CharSequence chSq = text; //.toCharArray(); //Transforme le String en array de char
 				textArea.setText(text); //Mets le String (une lettre) dans le JtextArea
-				for(int i = 0; i < text.length(); i++) {
-					str.append(chSq); //ajoute au premier String des characters avec une fonction de StringBuilder
-				}
 			}
 		});
 		getFrame().getContentPane().add(btnNewButton2);
 
-		JButton btnNewButton3 = new JButton("Etape suivante");
+		JButton btnNewButton3 = new JButton("Effacer champs");
 		btnNewButton3.setBounds(332, 486, 125, 23);
 		btnNewButton3.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				textArea.setText(null);
+				textArea_1.setText(null);
 			}
 		});
 		getFrame().getContentPane().add(btnNewButton3);
@@ -207,15 +238,6 @@ public class Interface {
 
 
 
-		/****************************************/
-
-		JTextPane textPane = new JTextPane();
-		textPane.setBorder(new LineBorder(new Color(0, 0, 0)));
-		textPane.setBounds(399, 358, 44, 23);
-		getFrame().getContentPane().add(textPane);
-
-
-
 		/*****************LABELS**********************/
 
 		JLabel lblReflector = new JLabel("REFLECTEUR");
@@ -238,42 +260,28 @@ public class Interface {
 		getFrame().getContentPane().add(lblRotor_2);
 
 		JLabel lblCle = new JLabel("CLE");
-		lblCle.setLabelFor(textPane);
 		lblCle.setBounds(353, 350, 29, 38);
 		getFrame().getContentPane().add(lblCle);
 
 		JLabel label = new JLabel("DECALAGE");
 		label.setBounds(152, 350, 99, 38);
 		frame.getContentPane().add(label);
-		
-		
+
+
 		/***********DROPDOWN MENU POUR CHOISIR ROTOR*****************/
 		String[] rotors = {"   Rotor 1", "   Rotor 2", "   Rotor 3"};
-		
+
 		JComboBox comboBox = new JComboBox(rotors);
 		comboBox.setBackground(Color.WHITE);
 		comboBox.setBorder(new LineBorder(new Color(171, 173, 179)));
 		comboBox.setSelectedIndex(2);
 		comboBox.setBounds(453, 358, 109, 23);
 		frame.getContentPane().add(comboBox);
-
-		/**************BOUTONS RADIOS********************/
-		JRadioButton btnDroite = new JRadioButton("Droite");
-		btnDroite.setBackground(Color.LIGHT_GRAY);
-		btnDroite.setBounds(257, 346, 66, 23);
-		frame.getContentPane().add(btnDroite);
-
-		JRadioButton btnGauche = new JRadioButton("Gauche");
-		btnGauche.setBackground(Color.LIGHT_GRAY);
-		btnGauche.setBounds(257, 372, 84, 23);
-		frame.getContentPane().add(btnGauche);
 		
-		ButtonGroup btnGroup = new ButtonGroup();
-		btnGroup.add(btnDroite);
-		btnGroup.add(btnGauche);
 
 
 	}
+		
 	public JTable getTable() {
 		return rotor3;
 	}
