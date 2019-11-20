@@ -158,60 +158,57 @@ public class Rotor {
 
 	//FONCTIONS POUR LE DECALAGE//
 
-	public void afficherVector(int[] arr, int[] arr2) {
-		for(int i = 0; i < arr.length; i++) {
-			System.out.print(arr[i] + ", ");
+	public void afficherVector(Integer[] allerRotor2, Integer[] retourRotor2) {
+		for(int i = 0; i < allerRotor2.length; i++) {
+			System.out.print(allerRotor2[i] + ", ");
 		}
 		System.out.println(" ");
-		for(int j = 0; j < arr2.length; j++) {
-			System.out.print(arr2[j] + ", ");
+		for(int j = 0; j < retourRotor2.length; j++) {
+			System.out.print(retourRotor2[j] + ", ");
 		}
 
 	}
 
-	public void returnVector(int[] arr, int[] arr2, boolean direction, int d) {
+	public void returnVector(Integer[] allerRotorEx, Integer[] retourRotorEx, boolean direction, int d) {
 		if(direction) {
-			rightRotate(arr, d); 
-			rightRotate(arr2, d);
+			rightRotate(allerRotorEx, d); 
+			rightRotate(retourRotorEx, d);
 		} else {
-			leftRotate(arr, d);
-			leftRotate(arr2, d);
+			leftRotate(allerRotorEx, d);
+			leftRotate(retourRotorEx, d);
 		}
-		afficherVector(arr, arr2); 
 	}
 
 
-	public void leftRotate(int[] arr, int d) { 
-		int n = arr.length; 
+	public void leftRotate(Integer[] allerRotorEx, int d) { 
 		for (int i = 0; i < d; i++) 
-			leftRotatebyOne(arr); 
+			leftRotatebyOne(allerRotorEx); 
 	} 
 
 	/*Function to right rotate arr[] of size n by d*/
-	public void rightRotate(int arr[], int d) { 
-		int n = arr.length;
+	public void rightRotate(Integer[] allerRotorEx, int d) { 
 		for (int i = 0; i < d; i++) 
-			rightRotateByOne(arr); 
+			rightRotateByOne(allerRotorEx); 
 	} 
 
 	//function needed for leftRotate
-	public void leftRotatebyOne(int arr[]) { 
-		int n = arr.length; 
+	public void leftRotatebyOne(Integer[] allerRotorEx) { 
+		int n = allerRotorEx.length; 
 		int i, temp; 
-		temp = arr[0]; 
+		temp = allerRotorEx[0]; 
 		for (i = 0; i < n - 1; i++) 
-			arr[i] = arr[i + 1]; 
-		arr[i] = temp; 
+			allerRotorEx[i] = allerRotorEx[i + 1]; 
+		allerRotorEx[i] = temp; 
 	} 
 
 	//function needed for rightRotate
-	public void rightRotateByOne(int arr[]) {
-		int n = arr.length;
-		int last = arr[n - 1];
+	public void rightRotateByOne(Integer[] allerRotorEx) {
+		int n = allerRotorEx.length;
+		int last = allerRotorEx[n - 1];
 		for (int i = n - 2; i >= 0; i--) {
-			arr[i + 1] = arr[i];
+			allerRotorEx[i + 1] = allerRotorEx[i];
 		}
-		arr[0] = last;
+		allerRotorEx[0] = last;
 	}
 
 	/**************************GETTER/SETTER********************************/
