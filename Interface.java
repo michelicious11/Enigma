@@ -22,6 +22,7 @@ import javax.swing.border.BevelBorder;
 import javax.swing.JTextPane;
 import javax.swing.JTextField;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JComboBox;
 import javax.swing.JRadioButton;
 import javax.swing.border.SoftBevelBorder;
@@ -41,6 +42,7 @@ public class Interface {
 	private Integer[] allerRotor; 
 	private Integer[] retourRotor;
 	private JTable jTableSelected; 
+	private int numInput;
 
 	/**
 	 * Launch the application.
@@ -107,7 +109,6 @@ public class Interface {
 		amountInput.setBounds(314, 358, 47, 23);
 		frame.getContentPane().add(amountInput);
 		amountInput.setColumns(10);
-
 		/***********DROPDOWN MENU POUR CHOISIR ROTOR*****************/
 		String[] rotors = {"   Rotor 1", "   Rotor 2", "   Rotor 3"};
 
@@ -131,7 +132,7 @@ public class Interface {
 					direction = false; 
 				}
 				//recuperer valeur input jtextfield
-				int montant = 3; //amountInput.getText(); 
+				int montant = checkInt(amountInput.getText()); 
 				//recuperer valeur dropdown menu
 				int boxChoice = comboBox.getSelectedIndex();
 				if(boxChoice == 0) {
@@ -317,13 +318,25 @@ public class Interface {
 		jTable.setModel(new DefaultTableModel(
 				new Object[][] {
 					this.retourRotor = retourRotor,
-					this.allerRotor = allerRotor					
+							this.allerRotor = allerRotor					
 				},
 				new String[] {
 						null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null
 				}
 				));
 		return jTable;
+	}
+
+	public int checkInt(String textField) {
+
+		int montant = 0;
+		try {
+			montant = Integer.parseInt(textField); 
+
+		} catch (NumberFormatException ex) {
+			JOptionPane.showMessageDialog(frame, "Veuillez entrer un entier valide", "Error", JOptionPane.ERROR_MESSAGE);
+		}
+		return montant;
 	}
 
 	public void setFrame(JFrame frame) {
