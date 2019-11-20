@@ -12,6 +12,7 @@ import javax.swing.JScrollPane;
 import javax.swing.border.LineBorder;
 import java.awt.Color;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
 import javax.swing.JInternalFrame;
 import javax.swing.JProgressBar;
 import javax.swing.border.CompoundBorder;
@@ -36,6 +37,10 @@ public class Interface {
 	private JTable rotor2;
 	private JTable reflector;
 	private JTextField amountInput;
+	private boolean direction; 
+	private Integer[] allerRotor; 
+	private Integer[] retourRotor;
+	private JTable jTableSelected; 
 
 	/**
 	 * Launch the application.
@@ -80,47 +85,76 @@ public class Interface {
 		textArea_1.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
 		textArea_1.setBounds(120, 413, 369, 62);
 		getFrame().getContentPane().add(textArea_1);
-		
-		
+
+
 		/**************BOUTONS RADIOS********************/
 		JRadioButton btnDroite = new JRadioButton("Droite", true);
 		btnDroite.setBackground(Color.LIGHT_GRAY);
-		btnDroite.setBounds(257, 346, 66, 23);
+		btnDroite.setBounds(185, 346, 66, 23);
 		frame.getContentPane().add(btnDroite);
 
 		JRadioButton btnGauche = new JRadioButton("Gauche", false);
 		btnGauche.setBackground(Color.LIGHT_GRAY);
-		btnGauche.setBounds(257, 372, 84, 23);
+		btnGauche.setBounds(185, 372, 84, 23);
 		frame.getContentPane().add(btnGauche);
 
 		ButtonGroup btnGroup = new ButtonGroup();
 		btnGroup.add(btnDroite);
 		btnGroup.add(btnGauche);
-		
+
 		/*****************JTextField (input)********************/
 		amountInput = new JTextField();
-		amountInput.setBounds(403, 358, 47, 23);
+		amountInput.setBounds(314, 358, 47, 23);
 		frame.getContentPane().add(amountInput);
 		amountInput.setColumns(10);
 
+		/***********DROPDOWN MENU POUR CHOISIR ROTOR*****************/
+		String[] rotors = {"   Rotor 1", "   Rotor 2", "   Rotor 3"};
+
+		JComboBox comboBox = new JComboBox(rotors);
+		comboBox.setBackground(Color.WHITE);
+		comboBox.setBorder(new LineBorder(new Color(171, 173, 179)));
+		comboBox.setSelectedIndex(0);
+		comboBox.setBounds(360, 358, 109, 23);
+		frame.getContentPane().add(comboBox);
+
 		/***************BOUTONS***********************/
 		JButton btnConfig = new JButton("Configurer rotor");
-		btnConfig.setBounds(145, 486, 153, 23);
+		btnConfig.setBounds(479, 358, 153, 23);
 		btnConfig.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) { 
 				Rotor rotor = new Rotor(); //pour pour avoir acces aux methodes de Rotor
-				
+				//recuperer valeur gauche-droite
 				if(btnDroite.isSelected()) {
-					boolean droite = rotor.getDirection(); 
-					droite = true; 
-					int montant = 10; //amountInput.getText(); 
-					//returnVector(Integer[] arr, Integer[] arr2, droite, int d) 
-				} 
-				
-			}
+					direction = true; 
+				} else if(btnGauche.isSelected()) {
+					direction = false; 
+				}
+				//recuperer valeur input jtextfield
+				int montant = 3; //amountInput.getText(); 
+				//recuperer valeur dropdown menu
+				int boxChoice = comboBox.getSelectedIndex();
+				if(boxChoice == 0) {
+					allerRotor = Main.allerRotor1; 
+					retourRotor = Main.retourRotor1;
+					jTableSelected = rotor1; 
+				} else if(boxChoice == 1) {
+					allerRotor = Main.allerRotor2; 
+					retourRotor = Main.retourRotor2;
+					jTableSelected = rotor2; 
+				} else if(boxChoice == 2) {
+					allerRotor = Main.allerRotor3; 
+					retourRotor = Main.retourRotor3;
+					jTableSelected = rotor3; 
+				}
+				//fonction pour decaler rotor
+				rotor.returnVector(allerRotor, retourRotor, direction, montant);
+				//set new rotor decale
+				setNewData(jTableSelected, allerRotor, retourRotor);
+			} 
 		});
 		getFrame().getContentPane().add(btnConfig);
-		
+
 
 		JButton btnNewButton1 = new JButton("Decrypter");
 		btnNewButton1.setBounds(498, 542, 125, 23);
@@ -149,7 +183,7 @@ public class Interface {
 		getFrame().getContentPane().add(btnNewButton2);
 
 		JButton btnNewButton3 = new JButton("Effacer champs");
-		btnNewButton3.setBounds(332, 486, 125, 23);
+		btnNewButton3.setBounds(236, 486, 125, 23);
 		btnNewButton3.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				textArea.setText(null);
@@ -237,7 +271,6 @@ public class Interface {
 		getFrame().getContentPane().add(reflector);
 
 
-
 		/*****************LABELS**********************/
 
 		JLabel lblReflector = new JLabel("REFLECTEUR");
@@ -260,34 +293,37 @@ public class Interface {
 		getFrame().getContentPane().add(lblRotor_2);
 
 		JLabel lblCle = new JLabel("CLE");
-		lblCle.setBounds(353, 350, 29, 38);
+		lblCle.setBounds(275, 358, 29, 23);
 		getFrame().getContentPane().add(lblCle);
 
 		JLabel label = new JLabel("DECALAGE");
-		label.setBounds(152, 350, 99, 38);
+		label.setBounds(107, 358, 99, 23);
 		frame.getContentPane().add(label);
 
-
-		/***********DROPDOWN MENU POUR CHOISIR ROTOR*****************/
-		String[] rotors = {"   Rotor 1", "   Rotor 2", "   Rotor 3"};
-
-		JComboBox comboBox = new JComboBox(rotors);
-		comboBox.setBackground(Color.WHITE);
-		comboBox.setBorder(new LineBorder(new Color(171, 173, 179)));
-		comboBox.setSelectedIndex(2);
-		comboBox.setBounds(453, 358, 109, 23);
-		frame.getContentPane().add(comboBox);
-		
-
-
 	}
-		
+
 	public JTable getTable() {
 		return rotor3;
 	}
 
 	public JFrame getFrame() {
 		return frame;
+	}
+
+
+	/*****************FONCTIONS*********************/
+
+	public JTable setNewData(JTable jTable, Integer[] allerRotor, Integer[] retourRotor) {
+		jTable.setModel(new DefaultTableModel(
+				new Object[][] {
+					this.retourRotor = retourRotor,
+					this.allerRotor = allerRotor					
+				},
+				new String[] {
+						null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null
+				}
+				));
+		return jTable;
 	}
 
 	public void setFrame(JFrame frame) {
