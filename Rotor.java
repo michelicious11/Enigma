@@ -169,6 +169,20 @@ public class Rotor {
 
 	}
 
+	public void resetVector1(Integer[] allerRotorEx, Integer[] retourRotorEx) {
+		allerRotorEx = Main.allerRotor1;
+		retourRotorEx = Main.allerRotor1;
+	}	
+	public void resetVector2(Integer[] allerRotorEx, Integer[] retourRotorEx) {
+		allerRotorEx = Main.allerRotor2;
+		retourRotorEx = Main.allerRotor2;
+	}
+	public void resetVector3(Integer[] allerRotorEx, Integer[] retourRotorEx) {
+		allerRotorEx = Main.allerRotor3;
+		System.out.println(allerRotor + " et " + allerRotor.length + "\n" + Main.allerRotor3);
+		retourRotorEx = Main.allerRotor3;
+	}
+
 	public void returnVector(Integer[] allerRotorEx, Integer[] retourRotorEx, boolean direction, int d) {
 		if(direction) {
 			rightRotate(allerRotorEx, d); 
@@ -178,7 +192,6 @@ public class Rotor {
 			leftRotate(retourRotorEx, d);
 		}
 	}
-
 
 	public void leftRotate(Integer[] allerRotorEx, int d) { 
 		for (int i = 0; i < d; i++) 
