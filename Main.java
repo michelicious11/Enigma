@@ -37,7 +37,7 @@ public class Main extends Interface {
 	public static void main(String[] args) {
 
 
-		EventQueue.invokeLater(new Runnable() {
+		/*	EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
 					Interface window = new Interface();
@@ -46,7 +46,16 @@ public class Main extends Interface {
 					e.printStackTrace();
 				}
 			}
-		});
+		});*/
+
+
+
+		Rotor test = new Rotor();
+		System.out.println("Le texte encrypte apparait aussi ici :");
+		String mot = scanner.next().toUpperCase();
+		Conversion conversion = new Conversion(mot);
+		//test.returnVector(allerRotor1, retourRotor1, false, 5);
+		//	test.parcourirMot(mot, rotor1, rotor2, rotor3, reflector); 
 	}
 
 
