@@ -56,6 +56,8 @@ public class Interface {
 	private int numInput;
 	private int counter = 0; 
 
+
+
 	/**
 	 * Launch the application.
 	 */
@@ -160,6 +162,11 @@ public class Interface {
 		amountInput3.setBounds(162, 392, 47, 23);
 		frame.getContentPane().add(amountInput3);
 
+		amountInput = new JTextField();
+		amountInput.setBounds(314, 358, 47, 23);
+		frame.getContentPane().add(amountInput);
+		amountInput.setColumns(10);
+
 		/***********DROPDOWN MENU POUR CHOISIR ROTOR*****************/
 		String[] rotors = {"   Rotor 1", "   Rotor 2", "   Rotor 3"};
 
@@ -208,6 +215,36 @@ public class Interface {
 		btnConfig3.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) { 
 				decalage(checkInt(amountInput3.getText()), btnDroite3, comboBox3);
+
+				Rotor rotor = new Rotor(); //pour pour avoir acces aux methodes de Rotor
+				//recuperer valeur gauche-droite
+				if(btnDroite.isSelected()) {
+					direction = true; 
+				} else if(btnGauche.isSelected()) {
+					direction = false; 
+				}
+				//recuperer valeur input jtextfield
+				int montant = checkInt(amountInput.getText()); 
+				//recuperer valeur dropdown menu
+				int boxChoice = comboBox.getSelectedIndex();
+				if(boxChoice == 0) {
+					allerRotor = Main.allerRotor1; 
+					retourRotor = Main.retourRotor1;
+					jTableSelected = rotor1; 
+				} else if(boxChoice == 1) {
+					allerRotor = Main.allerRotor2; 
+					retourRotor = Main.retourRotor2;
+					jTableSelected = rotor2; 
+				} else if(boxChoice == 2) {
+					allerRotor = Main.allerRotor3; 
+					retourRotor = Main.retourRotor3;
+					jTableSelected = rotor3; 
+				}
+				//fonction pour decaler rotor
+				rotor.returnVector(allerRotor, retourRotor, direction, montant);
+				//set new rotor decale
+				setNewData(jTableSelected, allerRotor, retourRotor);
+
 			} 
 		});
 		frame.getContentPane().add(btnConfig3);
@@ -419,7 +456,7 @@ public class Interface {
 		}
 		return montant;
 	}
-
+  
 	public void reset(JTextField amountInput) {
 		{			
 			rotor1.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
@@ -515,7 +552,7 @@ public class Interface {
 		//set new rotor decale
 		setNewData(jTableSelected, allerRotor, retourRotor);
 	}
-
+  
 	public void setFrame(JFrame frame) {
 		this.frame = frame;
 		frame.getContentPane().setCursor(Cursor.getPredefinedCursor(Cursor.TEXT_CURSOR));
