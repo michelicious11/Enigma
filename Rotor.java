@@ -109,7 +109,7 @@ public class Rotor {
 	}
 
 	//fonction pour recueillir les lettres d'un mot
-	public String[] readLetters(StringBuilder str) {
+	public String[] readLetters(String str) {
 		int mot = str.length(); 
 		String[] lettres = new String[mot];
 
@@ -122,15 +122,10 @@ public class Rotor {
 	}
 
 	//fonction pour changer les lettres recueillies en chiffres
-	public Integer[] convertLetters(String[] lettres) {
-		Integer nbrLettres = lettres.length;
-		Integer[] numeros = new Integer[nbrLettres]; 
-		for(int i = 0; i < nbrLettres; i++) {
-			String lettre = lettres[i].toUpperCase();
-			Integer numero = conversion2.getValueOfLettre(lettre);
-			numeros[i] = numero; 
-		}			
-		return numeros;
+	public Integer convertLetters(String lettre) {
+		String lettre2 = lettre.toUpperCase();
+		Integer numero = conversion2.getValueOfLettre(lettre2);
+		return numero;
 	}
 
 	//recueillir int[] de convertLettre et appliquer encryption dessus
@@ -149,12 +144,12 @@ public class Rotor {
 	}
 
 	//appliquer readLetters, convertLetters et readWord
-	public String parcourirMot(StringBuilder str, Rotor x, Rotor y, Rotor z, Integer[] reflector) {
+	/*public String parcourirMot(StringBuilder str, Rotor x, Rotor y, Rotor z, Integer[] reflector) {
 		String[] lettres = readLetters(str);
 		Integer[] chiffres = convertLetters(lettres);
 		String strArr = readWord(chiffres, x, y, z, reflector);
 		return strArr;
-	}
+	}*/
 
 	//FONCTIONS POUR LE DECALAGE//
 
@@ -181,18 +176,34 @@ public class Rotor {
 
 
 	public void leftRotate(Integer[] allerRotorEx, int d) { 
-		for (int i = 0; i < d; i++) 
-			leftRotatebyOne(allerRotorEx); 
+		if(d > 0) {
+			for (int i = 0; i < d; i++) {
+				leftRotateByOne(allerRotorEx); 	
+			} 
+		}else {
+			d = d * -1; 
+			for (int i = 0; i < d; i++) {
+				rightRotateByOne(allerRotorEx);	
+			}
+		}
 	} 
 
 	/*Function to right rotate arr[] of size n by d*/
 	public void rightRotate(Integer[] allerRotorEx, int d) { 
-		for (int i = 0; i < d; i++) 
-			rightRotateByOne(allerRotorEx); 
+		if(d > 0) {
+			for (int i = 0; i < d; i++) {
+				rightRotateByOne(allerRotorEx);	
+			} 
+		}else {
+			d = d * -1; 
+			for (int i = 0; i < d; i++) {
+				leftRotateByOne(allerRotorEx); 	
+			}
+		}
 	} 
 
 	//function needed for leftRotate
-	public void leftRotatebyOne(Integer[] allerRotorEx) { 
+	public void leftRotateByOne(Integer[] allerRotorEx) { 
 		int n = allerRotorEx.length; 
 		int i, temp; 
 		temp = allerRotorEx[0]; 
