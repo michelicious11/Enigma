@@ -1,5 +1,3 @@
-import java.util.Arrays;
-
 public class Rotor {
 
 
@@ -14,10 +12,9 @@ public class Rotor {
 	//StringBuilder str = new StringBuilder(); 
 
 	//Constructor for a rotor
-	public Rotor(Integer[] allerRotor, Integer[] retourRotor, boolean direction) {
+	public Rotor(Integer[] allerRotor, Integer[] retourRotor) {
 		this.allerRotor = allerRotor; 
 		this.retourRotor = retourRotor;
-		this.direction = direction; 
 	}
 
 	//Default
@@ -142,14 +139,16 @@ public class Rotor {
 		}
 		return newMot.toString();
 	}
+	
+	//pour convertir les arrays de string en string
+    public String convertirArrayEnString(String[] strArray) {
+        StringBuilder stringBuilder = new StringBuilder();
+        for (int i = 0; i < strArray.length; i++) {
+            stringBuilder.append(strArray[i]);
+        }
+        return stringBuilder.toString();
+    }
 
-	//appliquer readLetters, convertLetters et readWord
-	/*public String parcourirMot(StringBuilder str, Rotor x, Rotor y, Rotor z, Integer[] reflector) {
-		String[] lettres = readLetters(str);
-		Integer[] chiffres = convertLetters(lettres);
-		String strArr = readWord(chiffres, x, y, z, reflector);
-		return strArr;
-	}*/
 
 	//FONCTIONS POUR LE DECALAGE//
 
