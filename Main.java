@@ -1,6 +1,3 @@
-import java.awt.EventQueue;
-import java.util.Scanner;
-
 public class Main extends Interface {
 
 	//Create first rotor arrays (aller and retour)
@@ -25,13 +22,10 @@ public class Main extends Interface {
 	static final Integer[] reflector = {25, 23, 21, 19, 17, 15, 13, 11, 9, 7, 5, 3, 1, -1, -3, 
 			-5, -7, -9, -11, -13, -15, -17, -19, -21, -23, -25};
 
-	//pour les valeurs a entrer par clavier
-	static Scanner scanner = new Scanner(System.in);
-
 	//Create the three rotors to be used
-	private static Rotor rotor1 = new Rotor(allerRotor1, retourRotor1, true);
-	private static Rotor rotor2 = new Rotor(allerRotor2, retourRotor2, true);
-	private static Rotor rotor3 = new Rotor(allerRotor3, retourRotor3, true);
+	private static Rotor rotor1 = new Rotor(allerRotor1, retourRotor1);
+	private static Rotor rotor2 = new Rotor(allerRotor2, retourRotor2);
+	private static Rotor rotor3 = new Rotor(allerRotor3, retourRotor3);
 
 
 	public static void main(String[] args) {
@@ -48,17 +42,7 @@ public class Main extends Interface {
 			}
 		});*/
 
-
-
-		Rotor test = new Rotor();
-		System.out.println("Le texte encrypte apparait aussi ici :");
-		String mot = scanner.next().toUpperCase();
-		Conversion conversion = new Conversion(mot);
-		//test.returnVector(allerRotor1, retourRotor1, false, 5);
-		//	test.parcourirMot(mot, rotor1, rotor2, rotor3, reflector); 
 	}
-
-
 	/****************GETTER/SETTER*********************/
 	public static Integer[] getAllerrotor1() {
 		return allerRotor1;
@@ -117,5 +101,5 @@ public class Main extends Interface {
 		Main.rotor3 = rotor3;
 	}
 	/****************END GETTER/SETTER*********************/
-} //fin main
+} 
 
