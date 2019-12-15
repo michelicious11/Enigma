@@ -1,3 +1,5 @@
+import java.awt.EventQueue;
+
 public class Main extends Interface {
 
 	//Create first rotor arrays (aller and retour)
@@ -29,19 +31,16 @@ public class Main extends Interface {
 
 
 	public static void main(String[] args) {
-
-
-		/*	EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					Interface window = new Interface();
-					window.getFrame().setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
+			EventQueue.invokeLater(new Runnable() {
+				public void run() {
+					try {
+						Interface window = new Interface();
+						window.getFrame().setVisible(true);
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
 				}
-			}
-		});*/
-
+			});
 	}
 	/****************GETTER/SETTER*********************/
 	public static Integer[] getAllerrotor1() {

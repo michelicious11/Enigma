@@ -489,7 +489,6 @@ public class Interface {
 
 		String lettres = new String(decryptArea.getText().toUpperCase());//prendre le texte a decrypter et le mettre en maj
 		String[] str = rotor.readLetters(lettres);//mettre le texte dans un array de string
-		System.out.println(rotor.convertirArrayEnString(str));
 		int strLength = str.length; 
 		String[] decryption = new String[strLength]; //array ou mettre message decrypter de meme taille que msg 
 
@@ -499,50 +498,38 @@ public class Interface {
 		}
 
 		counter = strLength; //dependamment le nombre de lettre, il y a eu meme nombre de tours 
-		System.out.println(strLength);
-		System.out.println(counter);
 		for(int i = strLength-1; i >= 0; i--) {
 			if(counter >= 52 && counter < 78) {
 				decalage(1, btnGauche3, comboBox3); 
 				int tempInt = conversion.getValueOfLettre(str[i]);
 				decryption[i] = rotor.encryption(tempInt, rotorFirst, rotorSecond, rotorThird, Main.getReflector());
 				counter--;
-				System.out.println(counter + " entre 52 et 72");
 			} else if(counter >= 26 && counter < 52) {
 				decalage(1, btnGauche2, comboBox2); 
 				int tempInt = conversion.getValueOfLettre(str[i]);
 				decryption[i] = rotor.encryption(tempInt, rotorFirst, rotorSecond, rotorThird, Main.getReflector());	
 				counter--;
-				System.out.println(counter + " entre 26 et 52");
 			} else if(counter < 26 || counter >= 78) {
 				decalage(1, btnGauche1, comboBox1); 
 				int tempInt = conversion.getValueOfLettre(str[i]);
 				decryption[i] = rotor.encryption(tempInt, rotorFirst, rotorSecond, rotorThird, Main.getReflector());
 				counter--;
-				System.out.println(counter + " -26 ou +72");
 			}
-			System.out.println(counter);
 		}
-		System.out.println("LOLOL");
 		encryptArea.setText(rotor.convertirArrayEnString(decryption));
 	}
 
 	public void decalage(int montant, JRadioButton btn, JComboBox<?> comboBox) {
-		System.out.println("test");
 		Rotor rotor = new Rotor(); //pour pour avoir acces aux methodes de Rotor
 		//recuperer valeur gauche-droite
-		System.out.println("test => " + btn.isSelected());
 		if(btn.isSelected()) {
 			direction = true; 
-			System.out.println(direction);
 		} else {
 			direction = false;
-			System.out.println(direction);
 		}
 		//recuperer valeur input jtextfield
 		//recuperer valeur dropdown menu
 		int boxChoice = comboBox.getSelectedIndex();
-		System.out.println("yolo => " + comboBox.getSelectedItem().toString());
 		if(boxChoice == 0) {
 			allerRotor = rotor1Aller; 
 			retourRotor = rotor1Retour;
