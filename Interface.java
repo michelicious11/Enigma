@@ -1,32 +1,21 @@
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
-import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
-import java.util.Arrays;
 import java.awt.event.ActionEvent;
-import javax.swing.JScrollPane;
 import javax.swing.border.LineBorder;
 import java.awt.Color;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableModel;
-import javax.swing.JInternalFrame;
-import javax.swing.JProgressBar;
-import javax.swing.border.CompoundBorder;
-import java.awt.Font;
-import java.awt.Component;
 import javax.swing.border.BevelBorder;
-import javax.swing.JTextPane;
 import javax.swing.JTextField;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JComboBox;
 import javax.swing.JRadioButton;
-import javax.swing.border.SoftBevelBorder;
 import javax.swing.border.EtchedBorder;
 import java.awt.Cursor;
 
@@ -58,21 +47,21 @@ public class Interface {
 	private JRadioButton btnGauche1; 
 	private JRadioButton btnGauche2; 
 	private JRadioButton btnGauche3; 
-	private JComboBox comboBox1; 
-	private JComboBox comboBox2; 
-	private JComboBox comboBox3; 
+	private JComboBox<?> comboBox1; 
+	private JComboBox<?> comboBox2; 
+	private JComboBox<?> comboBox3; 
 	private boolean direction; 
 	private Integer[] allerRotor; 
 	private Integer[] retourRotor;
 	private JTable jTableSelected; 
-	private int numInput;
 	private int counter = 0; 
-	private JComboBox cle1;
-	private JComboBox cle2; 
-	private JComboBox cle3;
+	private JComboBox<?> cle1;
+	private JComboBox<?> cle2; 
+	private JComboBox<?> cle3;
 	private JRadioButton gaucheCle1; 
 	private JRadioButton gaucheCle2;
 	private JRadioButton gaucheCle3;
+	private JButton btnInfo;
 
 	/**
 	 * Launch the application.
@@ -134,29 +123,29 @@ public class Interface {
 		btnGroup1.add(btnDroite1);
 		btnGroup1.add(btnGauche1);
 
-		btnGauche2 = new JRadioButton("Gauche", false);
-		btnGauche2.setBackground(Color.LIGHT_GRAY);
-		btnGauche2.setBounds(415, 358, 84, 23);
-		frame.getContentPane().add(btnGauche2);
-
 		btnDroite2 = new JRadioButton("Droite", true);
 		btnDroite2.setBackground(Color.LIGHT_GRAY);
 		btnDroite2.setBounds(347, 358, 66, 23);
 		frame.getContentPane().add(btnDroite2);
 
+		btnGauche2 = new JRadioButton("Gauche", false);
+		btnGauche2.setBackground(Color.LIGHT_GRAY);
+		btnGauche2.setBounds(415, 358, 84, 23);
+		frame.getContentPane().add(btnGauche2);
+
 		ButtonGroup btnGroup2 = new ButtonGroup();
 		btnGroup2.add(btnDroite2);
 		btnGroup2.add(btnGauche2);
-
-		btnGauche3 = new JRadioButton("Gauche", false);
-		btnGauche3.setBackground(Color.LIGHT_GRAY);
-		btnGauche3.setBounds(415, 392, 84, 23);
-		frame.getContentPane().add(btnGauche3);
 
 		btnDroite3 = new JRadioButton("Droite", true);
 		btnDroite3.setBackground(Color.LIGHT_GRAY);
 		btnDroite3.setBounds(347, 392, 66, 23);
 		frame.getContentPane().add(btnDroite3);
+
+		btnGauche3 = new JRadioButton("Gauche", false);
+		btnGauche3.setBackground(Color.LIGHT_GRAY);
+		btnGauche3.setBounds(415, 392, 84, 23);
+		frame.getContentPane().add(btnGauche3);
 
 		ButtonGroup btnGroup3 = new ButtonGroup();
 		btnGroup3.add(btnDroite3);
@@ -261,8 +250,17 @@ public class Interface {
 		});
 		getFrame().getContentPane().add(btnEncrypt);
 
+		btnInfo = new JButton("Instructions");
+		btnInfo.setBounds(159, 504, 125, 23);
+		btnInfo.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				instructions(); 
+			}
+		});
+		frame.getContentPane().add(btnInfo);
+
 		JButton btnEffacer = new JButton("Effacer champs");
-		btnEffacer.setBounds(162, 507, 125, 23);
+		btnEffacer.setBounds(323, 504, 125, 23);
 		btnEffacer.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				decryptArea.setText(null);
@@ -390,7 +388,6 @@ public class Interface {
 		label_2.setBounds(120, 328, 38, 23);
 		frame.getContentPane().add(label_2);
 
-
 	}
 
 	public JTable getTable() {
@@ -426,6 +423,19 @@ public class Interface {
 			JOptionPane.showMessageDialog(frame, "Veuillez entrer un entier valide", "Error", JOptionPane.ERROR_MESSAGE);
 		}
 		return montant;
+	}
+
+	public void instructions() {
+		JOptionPane.showMessageDialog(frame, 
+				"Ceci est une simulation de la machine d'encodage Enigma."
+						+ "*Configurer les cles avant d'encrypter ou de decrypter* \n"
+						+ "*Pour encrypter, entrer un message de 100 characteres ou moins* \n"
+						+ "*Pour encrypter, y aller une seule lettre a la fois* \n"
+						+ "*Ne pas inclure de chiffres ou de symboles* \n"
+						+ "*Les espaces ne sont pas encodes* \n"
+						+ "*Pour le decryptage, ecrire le message a decrypter d'un coup* \n"
+						+ "*Cliquer sur 'Reinitialiser' pour remettre la cle et les rotors a leurs positions initiales* \n",
+						"Instructions", JOptionPane.INFORMATION_MESSAGE);
 	}
 
 	public void reset(JTextField amountInput) {
@@ -479,6 +489,7 @@ public class Interface {
 
 		String lettres = new String(decryptArea.getText().toUpperCase());//prendre le texte a decrypter et le mettre en maj
 		String[] str = rotor.readLetters(lettres);//mettre le texte dans un array de string
+		System.out.println(rotor.convertirArrayEnString(str));
 		int strLength = str.length; 
 		String[] decryption = new String[strLength]; //array ou mettre message decrypter de meme taille que msg 
 
@@ -487,41 +498,51 @@ public class Interface {
 			encrypter(); 
 		}
 
-		determinerCles(comboBox1, comboBox2, comboBox3); //pour savoir avec quelle cle commencer la decryption
 		counter = strLength; //dependamment le nombre de lettre, il y a eu meme nombre de tours 
-		for(int i = 0; i < strLength; i++) {
-			if(counter < 26 || counter >= 78) {
-				decalage(1, gaucheCle3, cle3); 
+		System.out.println(strLength);
+		System.out.println(counter);
+		for(int i = strLength-1; i >= 0; i--) {
+			if(counter >= 52 && counter < 78) {
+				decalage(1, btnGauche3, comboBox3); 
 				int tempInt = conversion.getValueOfLettre(str[i]);
 				decryption[i] = rotor.encryption(tempInt, rotorFirst, rotorSecond, rotorThird, Main.getReflector());
 				counter--;
-			} else if(counter < 78 && counter >= 52) {
-				decalage(1, gaucheCle2, cle2); 
+				System.out.println(counter + " entre 52 et 72");
+			} else if(counter >= 26 && counter < 52) {
+				decalage(1, btnGauche2, comboBox2); 
 				int tempInt = conversion.getValueOfLettre(str[i]);
 				decryption[i] = rotor.encryption(tempInt, rotorFirst, rotorSecond, rotorThird, Main.getReflector());	
 				counter--;
-			} else if(counter < 52 && counter >= 26) {
-				decalage(1, gaucheCle1, cle1); 
+				System.out.println(counter + " entre 26 et 52");
+			} else if(counter < 26 || counter >= 78) {
+				decalage(1, btnGauche1, comboBox1); 
 				int tempInt = conversion.getValueOfLettre(str[i]);
 				decryption[i] = rotor.encryption(tempInt, rotorFirst, rotorSecond, rotorThird, Main.getReflector());
 				counter--;
+				System.out.println(counter + " -26 ou +72");
 			}
 			System.out.println(counter);
 		}
+		System.out.println("LOLOL");
 		encryptArea.setText(rotor.convertirArrayEnString(decryption));
 	}
 
-	public void decalage(int montant, JRadioButton btnDroite, JComboBox comboBox) {
+	public void decalage(int montant, JRadioButton btn, JComboBox<?> comboBox) {
+		System.out.println("test");
 		Rotor rotor = new Rotor(); //pour pour avoir acces aux methodes de Rotor
 		//recuperer valeur gauche-droite
-		if(btnDroite.isSelected()) {
+		System.out.println("test => " + btn.isSelected());
+		if(btn.isSelected()) {
 			direction = true; 
+			System.out.println(direction);
 		} else {
-			direction = false; 
+			direction = false;
+			System.out.println(direction);
 		}
 		//recuperer valeur input jtextfield
 		//recuperer valeur dropdown menu
 		int boxChoice = comboBox.getSelectedIndex();
+		System.out.println("yolo => " + comboBox.getSelectedItem().toString());
 		if(boxChoice == 0) {
 			allerRotor = rotor1Aller; 
 			retourRotor = rotor1Retour;
@@ -539,53 +560,6 @@ public class Interface {
 		rotor.returnVector(allerRotor, retourRotor, direction, montant);
 		//set new rotor decale
 		setNewData(jTableSelected, allerRotor, retourRotor);
-	}
-
-	public void determinerCles(JComboBox combo1, JComboBox combo2, JComboBox combo3) {
-		switch(combo1.getSelectedIndex()) {
-		case 0: 
-			cle1 = comboBox1;
-			gaucheCle1 = btnGauche1;
-			break; 
-		case 1: 
-			cle2 = comboBox1;
-			gaucheCle2 = btnGauche1;
-			break;
-		case 2: 
-			cle3 = comboBox1;
-			gaucheCle3 = btnGauche1;
-			break;
-		}
-
-		switch(combo2.getSelectedIndex()) {
-		case 0: 
-			cle1 = comboBox2;
-			gaucheCle1 = btnGauche2;
-			break; 
-		case 1: 
-			cle2 = comboBox2;
-			gaucheCle2 = btnGauche2;
-			break;
-		case 2: 
-			cle3 = comboBox2;
-			gaucheCle3 = btnGauche2;
-			break;
-		}
-
-		switch(combo3.getSelectedIndex()) {
-		case 0: 
-			cle1 = comboBox3;
-			gaucheCle1 = btnGauche3; 
-			break; 
-		case 1: 
-			cle2 = comboBox3;
-			gaucheCle2 = btnGauche3;
-			break;
-		case 2: 
-			cle3 = comboBox3;
-			gaucheCle3 = btnGauche3;
-			break;
-		}
 	}
 
 	public void setFrame(JFrame frame) {
